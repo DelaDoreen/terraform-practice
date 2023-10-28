@@ -8,7 +8,7 @@
 # Name of Author :
 # Date Created: 
 # Last Modified by:
-# Description :  This script will Install nginx and some other configurations.
+# Description :  This script will Install nginx and some other config.
 
 
 #update system
