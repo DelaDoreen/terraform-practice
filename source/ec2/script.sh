@@ -8,7 +8,7 @@
 # Name of Author :
 # Date Created: 
 # Last Modified by:
-# Description :  This script will Install nginx and some other config.
+# Description :This script will Install nginx and some other config.
 
 
 #update system
@@ -22,7 +22,7 @@ sudo apt-get install nginx -y
 sudo systemctl enable nginx
 sudo systemctl start nginx
 
-#create proxy server to listen on port 80
+#create proxy server to listen on  the port 80
 sudo tee /etc/nginx/sites-available/practice.conf <<-EOF
 server {
   listen 80;
