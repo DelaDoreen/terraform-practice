@@ -1,6 +1,15 @@
+
+
+
 #!/bin/bash
 
-# this script will install nginx and some other config
+
+# this script will install nginx and some other configurations.
+# Name of Author :
+# Date Created: 
+# Last Modified by:
+# Description :  This script will Install nginx and some other configurations.
+
 
 #update system
 sudo apt-get update
