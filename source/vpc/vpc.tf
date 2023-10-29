@@ -33,7 +33,7 @@ resource "aws_subnet" "public_subnet2" {
 resource "aws_subnet" "private_subnet" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = var.private_subnet
-  availability_zone = var.az3
+  availability_zone = var.az1
 
   tags = {
     Name = var.private_subnet
@@ -61,7 +61,7 @@ resource "aws_nat_gateway" "practice_ngw" {
   subnet_id     = aws_subnet.public_subnet.id
 
   tags = {
-    Name = var.nat_gateway_name
+    Name = var.nat-gateway-name
   }
 
   # To ensure proper ordering, it is recommended to add an explicit dependency
@@ -77,12 +77,6 @@ resource "aws_route_table" "practice_pub_rt" {
     cidr_block = var.ngw_cidr
     gateway_id = aws_internet_gateway.practice_gateway.id
   }
-
-  #   route {
-  #     # ipv6_cidr_block        = "::/0"
-  #     internet_gateway_id = internet_gateway.example.id
-  #   }
-
   tags = {
     Name = var.practice_pub_rt_name
   }
@@ -96,11 +90,6 @@ resource "aws_route_table" "practice_private_rt" {
     cidr_block     = var.ngw_cidr
     nat_gateway_id = aws_nat_gateway.practice_ngw.id
   }
-
-#   route {
-#     ipv6_cidr_block = var.ngw_cidr_v6
-#     nat_gateway_id  = aws_nat_gateway.practice_ngw.id
-#   }
 
   tags = {
     Name = var.practice_private_rt_name
@@ -122,22 +111,15 @@ resource "aws_route_table_association" "practice_rta_pr" {
 
 
 resource "aws_lb" "practice_lb" {
-  name               = var.lb_name
-  internal           = false
-  load_balancer_type = var.lb_type
-  security_groups    = [aws_security_group.lb_sg.id]
-  subnets            = [aws_subnet.public_subnet.id, aws_subnet.public_subnet2.id]
-
+  name                       = var.lb-name
+  internal                   = false
+  load_balancer_type         = var.lb_type
+  security_groups            = [aws_security_group.lb_sg.id]
+  subnets                    = [aws_subnet.public_subnet.id, aws_subnet.public_subnet2.id]
   enable_deletion_protection = false
 
-  #   access_logs {
-  #     bucket  = aws_s3_bucket.lb_logs.id
-  #     prefix  = "test-lb"
-  #     enabled = true
-  #   }
-
   tags = {
-    Name = var.lb_name
+    Name = var.lb-name
   }
 }
 
@@ -149,19 +131,19 @@ resource "aws_security_group" "lb_sg" {
   vpc_id      = aws_vpc.main.id
 
   ingress {
-    description      = "TLS from VPC"
-    from_port        = var.web
-    to_port          = var.web
-    protocol         = var.lb_protocol
-    cidr_blocks      = [var.ngw_cidr]
-    ipv6_cidr_blocks = [var.ngw_cidr_v6]
+    description = "TLS from VPC"
+    from_port   = var.web
+    to_port     = var.web
+    protocol    = var.lb_protocol
+    cidr_blocks = var.default_route
+
   }
 
   egress {
     from_port        = var.web
     to_port          = var.web
     protocol         = var.lb_protocol
-    cidr_blocks      = [var.ngw_cidr]
+    cidr_blocks      = var.lb_out
     ipv6_cidr_blocks = [var.ngw_cidr_v6]
   }
 
@@ -177,18 +159,18 @@ resource "aws_security_group" "instance_sg" {
   vpc_id      = aws_vpc.main.id
 
   ingress {
-    description      = "TLS from VPC"
-    from_port        = var.web
-    to_port          = var.web
-    protocol         = var.lb_protocol
+    description     = "TLS from VPC"
+    from_port       = var.web
+    to_port         = var.web
+    protocol        = var.lb_protocol
     security_groups = [aws_security_group.lb_sg.id]
   }
 
   egress {
-    from_port        = var.web
-    to_port          = var.web
-    protocol         = var.lb_protocol
-    security_groups = [aws_security_group.lb_sg.id]
+    from_port   = var.web
+    to_port     = var.web
+    protocol    = var.lb_protocol
+    cidr_blocks = var.default_route
   }
 
   tags = {
@@ -197,14 +179,14 @@ resource "aws_security_group" "instance_sg" {
 }
 
 
-resource "aws_lb_target_group" "web_group" {
-  name     = var.web_group
+resource "aws_lb_target_group" "web-group" {
+  name     = var.web-group
   port     = var.web
   protocol = var.lb_listener_protocol
   vpc_id   = aws_vpc.main.id
 
   tags = {
-    Name = var.web_group
+    Name = var.web-group
   }
 }
 
@@ -219,13 +201,13 @@ resource "aws_lb_listener" "lb_listener" {
 
   default_action {
     type             = var.lb_action
-    target_group_arn = aws_lb_target_group.web_group.arn
+    target_group_arn = aws_lb_target_group.web-group.arn
   }
 }
 
 
 resource "aws_lb_target_group_attachment" "project_lb_tg_attachment" {
-  target_group_arn = aws_lb_target_group.web_group.arn
+  target_group_arn = aws_lb_target_group.web-group.arn
   target_id        = var.target_id
   port             = var.web
 }

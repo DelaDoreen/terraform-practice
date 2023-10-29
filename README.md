@@ -8,5 +8,8 @@
 - **Gina Tetteh: https://github.com/Gina1010**
 - **Kwasi Attafua: https://github.com/Kattafuah**
 - **Michael Kedey: https://github.com/michaelkedey**
-i **Seyram Gabriel: https://github.com/seyramgabriel**
+
+- **Seyram Gabriel: https://github.com/seyramgabriel**
 - **Kojo:**
+- **Habietu://https://github.com/HABIETU-FUSEINI**   
+- **Michael Kedey: https://github.com/michaelkedey**

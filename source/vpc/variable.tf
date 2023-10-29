@@ -83,6 +83,17 @@ variable "private_subnet" {
 
 }
 
+variable "lb_out" {
+  default   = ["177.70.0.128/26"]
+  type      = list(string)
+  sensitive = true
+}
+
+variable "default_route" {
+  default   = ["0.0.0.0/0"]
+  type      = list(string)
+  sensitive = true
+}
 
 variable "az3" {
   default = "us-east-1c"
@@ -111,8 +122,8 @@ variable "gateway_name" {
 
 
 
-variable "nat_gateway_name" {
-  default = "practice_ngw"
+variable "nat-gateway-name" {
+  default = "practice-ngw"
   type    = string
 }
 
@@ -149,7 +160,7 @@ variable "practice_private_rt_name" {
 }
 
 
-variable "lb_name" {
+variable "lb-name" {
   default     = "practice-lb"
   type        = string
   description = "lb name"
@@ -188,7 +199,7 @@ variable "lb_protocol" {
 
 
 
-variable "web_group" {
+variable "web-group" {
   default = "practice-target-group"
   type    = string
 }
@@ -210,7 +221,7 @@ variable "lb_action" {
 variable "target_id" {
 }
 
-variable "instance_sg_name"{
+variable "instance_sg_name" {
   default = "practice_instance_sg"
-  type = string
+  type    = string
 }
