@@ -181,7 +181,7 @@ variable "web" {
 
 
 variable "lb_protocol" {
-  default = "TCP"
+  default = "tcp"
   type    = string
 
 }
@@ -213,4 +213,14 @@ variable "target_id" {
 variable "instance_sg_name"{
   default = "practice_instance_sg"
   type = string
+}
+
+variable "eg_protocol" {
+  default = -1
+  type = number
+}
+
+variable "all" {
+  default = 0
+  type = number 
 }

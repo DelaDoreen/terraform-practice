@@ -33,7 +33,7 @@ resource "aws_subnet" "public_subnet2" {
 resource "aws_subnet" "private_subnet" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = var.private_subnet
-  availability_zone = var.az3
+  availability_zone = var.az1
 
   tags = {
     Name = var.private_subnet
@@ -161,7 +161,7 @@ resource "aws_security_group" "lb_sg" {
     from_port        = var.web
     to_port          = var.web
     protocol         = var.lb_protocol
-    cidr_blocks      = [var.ngw_cidr]
+    cidr_blocks      = [var.private_subnet]
     ipv6_cidr_blocks = [var.ngw_cidr_v6]
   }
 
@@ -185,9 +185,9 @@ resource "aws_security_group" "instance_sg" {
   }
 
   egress {
-    from_port        = var.web
-    to_port          = var.web
-    protocol         = var.lb_protocol
+    from_port        = var.all
+    to_port          = var.all
+    protocol         = var.eg_protocol
     security_groups = [aws_security_group.lb_sg.id]
   }
 

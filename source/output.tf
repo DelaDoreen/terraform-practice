@@ -1,5 +1,5 @@
 output "load_balancer" {
-  value = module.vpc.load_balancer.dns_name
+  value = module.vpc.load_balancer
 }
 
 

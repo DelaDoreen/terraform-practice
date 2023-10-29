@@ -1,5 +1,5 @@
 output "load_balancer" {
-  value = aws_lb.practice_lb.id
+  value = aws_lb.practice_lb.dns_name
 }
 
 
